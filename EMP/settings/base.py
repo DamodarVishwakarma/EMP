@@ -25,12 +25,12 @@ sys.path.append(str(BASE_DIR / ''))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_+g3(sqk15bh22iz8dsr13-8l-qvwlv0j@s@0#nn960n74sa5)'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['empdev.herokuapp.com', 'localhost']
 
 
 # Application definition
