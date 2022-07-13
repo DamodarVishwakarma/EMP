@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+{% if user.is_authenticated %}
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'company_add' %}"><svg
+            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus"
+            viewBox="0 0 16 16">
+            <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+        </svg>Add</a>
+</div>
+{% endif %}
+<h6 class="page-header" style="margin-top: 20px;">{{title}}</h6>
+<table class="table" id="book-table">
+    <thead style="background-color:lightseagreen">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for comp in comps %}
+        <tr>
+            <td>{{ comp.id }}</td>
+            <td>{{ comp.name }}</td>
+            <td>{{ comp.contact_number }}</td>
+            <td>{{ comp.email }}</td>
+            <td>{{ comp.address }}</td>
+            <td><a href="{% url 'company_update' comp.id %}"><i class="material-icons" title="Edit">&#xE254;</i></a>
+            </td>
+            <td><a href="{% url 'company_delete' comp.id %}"><i class="material-icons" style="color:red;"
+                        title="Delete">&#xE872;</i></a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="10" class="text-center bg-warning">No Company</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

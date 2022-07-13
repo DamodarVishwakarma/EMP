@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+{% if user.is_authenticated %}
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'employee_add' %}"><svg
+            xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus"
+            viewBox="0 0 16 16">
+            <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+        </svg>Add</a>
+</div>
+{% endif %}
+<h6 class="page-header" style="margin-top: 20px;">{{title}}</h6>
+<table class="table" id="book-table">
+    <thead style="background-color:lightseagreen">
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>DOB</th>
+            <th>DOJ</th>
+            <th>Address</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for emp in emps %}
+        <tr>
+            <td>{{ emp.id }}</td>
+            <td>{{ emp.title }}</td>
+            <td>{{ emp.firstname }}</td>
+            <td>{{ emp.lastname }}</td>
+            <td>{{ emp.email }}</td>
+            <td>{{ emp.date_of_birth }}</td>
+            <td>{{ emp.date_of_joining }}</td>
+            <td>{{ emp.address }}</td>
+            <td><a href="{% url 'employee_update' emp.id %}"><i class="material-icons" title="Edit">&#xE254;</i></a>
+            </td>
+            <td><a href="{% url 'employee_delete' emp.id %}"><i class="material-icons" style="color:red;"
+                        title="Delete">&#xE872;</i></a></td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="10" class="text-center bg-warning">No Employee</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
