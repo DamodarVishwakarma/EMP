@@ -6,7 +6,7 @@ class Company(models.Model):
     name = models.CharField('name', max_length=30, blank=False)
     contact_number = models.CharField(max_length=15)
     email = models.EmailField(max_length=50)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name='company_address')
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name='company_address', null=True)
 
 
     def __str__(self):

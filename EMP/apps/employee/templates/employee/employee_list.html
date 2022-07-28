@@ -11,8 +11,8 @@
 </div>
 {% endif %}
 <h6 class="page-header" style="margin-top: 20px;">{{title}}</h6>
-<table class="table" id="book-table">
-    <thead style="background-color:lightseagreen">
+<table class="table" >
+    <thead class="thead-dark">
         <tr>
             <th>ID</th>
             <th>Title</th>
@@ -21,7 +21,7 @@
             <th>Email</th>
             <th>DOB</th>
             <th>DOJ</th>
-            <th>Address</th>
+            <!-- <th>Address</th> -->
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -36,7 +36,7 @@
             <td>{{ emp.email }}</td>
             <td>{{ emp.date_of_birth }}</td>
             <td>{{ emp.date_of_joining }}</td>
-            <td>{{ emp.address }}</td>
+            <!-- <td>{{ emp.employee_address }}</td> -->
             <td><a href="{% url 'employee_update' emp.id %}"><i class="material-icons" title="Edit">&#xE254;</i></a>
             </td>
             <td><a href="{% url 'employee_delete' emp.id %}"><i class="material-icons" style="color:red;"
