@@ -16,7 +16,7 @@ class CompanyListView(ListView):
         context_data['title'] = "COMPANY LIST"
         return context_data
 
-class CompanyCreateView(LoginRequiredMixin,CreateView):
+class CompanyCreateView(CreateView):
     model = Company
     template_name = 'company/company_add.html'
     fields = ['name', 'contact_number', 'email', 'address']

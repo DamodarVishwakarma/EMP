@@ -79,14 +79,14 @@
     $('.formset_row').formset({
         addText: 'add contract',
         deleteText: 'remove',
-        prefix: 'contractemployee_set'
+        prefix: '{{contractemployee.prefix}}'
     });
 </script>
 <script type="text/javascript">
     $('.formset_row2').formset({
         addText: 'add address',
         deleteText: 'remove',
-        prefix: 'addressemployee_set'
+        prefix: '{{addressemployee.prefix}}'
     });
 </script>
 {% endblock%}

@@ -7,7 +7,8 @@
     <form action="" method="post">{% csrf_token %}
         <table>
             {{ form.as_table }}
-        </table><hr>
+        </table>
+        <hr>
         <table class="table">
             <h3>Contract</h3>
             {{ contractemployee.management_form }}
@@ -37,7 +38,8 @@
                 {% endfor %}
             </tr>
             {% endfor %}
-        </table><hr>
+        </table>
+        <hr>
         <table class="table">
             <h3>Address</h3>
             {{ addressemployee.management_form }}

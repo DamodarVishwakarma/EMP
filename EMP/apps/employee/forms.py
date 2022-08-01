@@ -1,3 +1,4 @@
+from curses.ascii import NUL
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm
@@ -24,18 +25,6 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
-class EmployeeForm(ModelForm):
-
-    class Meta:
-        model = Employee
-        fields = ['title', 'firstname', 'lastname', 'email',
-                  'date_of_birth', 'date_of_joining']
-        widgets = {
-            'date_of_birth': DateInput(),
-            'date_of_joining':  DateInput(),
-        }
-
-
 class ContractForm(ModelForm):
 
     class Meta:
@@ -55,6 +44,18 @@ class AddressForm(ModelForm):
 
 # AddressFormSet = modelformset_factory(Address, extra=1, form=AddressForm)
 # ContractFormSet = modelformset_factory(Contract,extra=1, form=ContractForm)
+
+class EmployeeForm(ModelForm):
+
+    class Meta:
+        model = Employee
+        fields = ['title', 'firstname', 'lastname', 'email',
+                  'date_of_birth', 'date_of_joining']
+        widgets = {
+            'date_of_birth': DateInput(),
+            'date_of_joining':  DateInput(),
+        }
+
 
 ContractFormSet = inlineformset_factory(Employee, Contract,
                                             form= ContractForm, extra=1)

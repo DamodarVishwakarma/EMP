@@ -38,54 +38,6 @@
 
 
     {% block extra_script %}
-    <script>
-        var arr1 = [3, 'a', 'a', 'a', 2, 3, 'a', 3, 'a', 2, 4, 9, 3];
-
-        const getFrequent = (arr, cb) => {
-            let data = {};
-            let mostFrequentItem = arr[0];
-
-            arr.forEach(el => {
-                if (data[el]) {
-                    data[el] += 1;
-                } else {
-                    data[el] = 1;
-                }
-            })
-            Object.keys(data).forEach((el) => {
-
-                if (data[el] > data[mostFrequentItem]) {
-                    mostFrequentItem = el
-                }
-            })
-            cb('Result is :: ' + mostFrequentItem + '=' + data[mostFrequentItem])
-        }
-    </script>
-    <!-- <script>
-        var arr1 = [3, 'a', 'a', 'a', 2, 3, 'a', 3, 'a', 2, 4, 9, 3]
-
-        function count_elements(arr1) {
-            let counts = {}
-
-            for (let i = 0; i < arr1.length; i++) {
-                if (counts[arr1[i]]) {
-                    counts[arr1[i]] += 1
-                } else {
-                    counts[arr1[i]] = 1
-                }
-            }
-            for (let item in counts) {
-                if (counts[item] >= 1) {
-                    console.log(item + " counted: " + counts[item] + " times.")
-                }
-            }
-            console.log(counts['a'])
-            console.log(counts['a'] + 1)
-        }
-
-        count_elements(arr1)
-
-    </script> -->
 
     {% endblock %}
 </body>

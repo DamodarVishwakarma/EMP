@@ -130,27 +130,42 @@ class AddressContractEmployeeUpdate(UpdateView):
     def get_context_data(self, **kwargs):
         data = super(AddressContractEmployeeUpdate, self).get_context_data(**kwargs)
         if self.request.POST:
-            data['contractemployee'] = ContractFormSet(self.request.POST)
-            data['addressemployee'] = AddressFormSet(self.request.POST)
+            data['contractemployee'] = ContractFormSet(self.request.POST, instance=self.object)
+            data['addressemployee'] = AddressFormSet(self.request.POST, instance=self.object)
         else:
-            data['contractemployee'] =ContractFormSet()
-            data['addressemployee'] =AddressFormSet()
+            data['contractemployee'] =ContractFormSet(instance=self.object)
+            data['addressemployee'] =AddressFormSet(instance=self.object)
+        # import pdb; pdb.set_trace()
         return data
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        contractemployee = ContractFormSet(self.request.POST, instance=self.object)
+        addressemployee = AddressFormSet(self.request.POST, instance=self.object)
+        if (form.is_valid() and addressemployee.is_valid() and contractemployee.is_valid()):
+            return self.form_valid(form, contractemployee, addressemployee)
+        else:
+            #import pdb; pdb.set_trace()
+            return self.form_invalid(form, contractemployee, addressemployee)
 
-    def form_valid(self, form):
+    def form_valid(self, form, contractemployee, addressemployee):
         context = self.get_context_data()
+        form= context['form']
         contractemployee = context['contractemployee']
         addressemployee = context['addressemployee']
-        with transaction.atomic():
-            self.object = form.save()
-
-            if contractemployee.is_valid() and addressemployee.is_valid():
+        # with transaction.atomic():
+        self.object = form.save()
+        if contractemployee.is_valid() and addressemployee.is_valid():
                 contractemployee.instance = self.object
-                addressemployee.instance = self.object
                 contractemployee.save()
+                addressemployee.instance = self.object
                 addressemployee.save()
-        # import pdb; pdb.set_trace()
         return super(AddressContractEmployeeUpdate, self).form_valid(form)
+
+    # def form_invalid(self, form, contractemployee, addressemployee):
+    #     return self.render_to_response(self.get_context_data(form=form, contractemployee=contractemployee, addressemployee=addressemployee ))
 
 
 
