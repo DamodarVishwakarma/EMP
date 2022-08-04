@@ -1,5 +1,6 @@
 from django.db import models
-from django.db import models
+from django.core.exceptions import ValidationError
+from django.db.models.signals import pre_save
 
 title_choice = (
     ('Mr.', 'Mr.'),
@@ -21,6 +22,7 @@ class Employee(models.Model):
     def __str__(self):
         return f"{self.firstname}"
 
+
 class Contract(models.Model):
     name = models.CharField(max_length=40)
     start_date = models.DateField()
@@ -32,6 +34,4 @@ class Contract(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-
-
-
+  

@@ -1,12 +1,12 @@
-from curses.ascii import NUL
+from django.core.exceptions import ValidationError
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import inlineformset_factory
 from shared.models import Address
-from employee.models import Employee
-from employee.models import Contract
+from employee.models import Employee, Contract
+from company.models import Company
 
 
 class RegisterForm(UserCreationForm):
@@ -25,25 +25,35 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 
-class ContractForm(ModelForm):
+class CompanyForm(ModelForm):
 
+    class Meta:
+        model = Company
+        fields = ['name', 'contact_number', 'email']
+
+
+class ContractForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ContractForm, self).__init__(*args, **kwargs)
+        self.fields['start_date'].widget.attrs['class'] = 'startDate'
+        self.fields['end_date'].widget.attrs['class'] = 'endDate'
+    # start_date = forms.DateField(widget=forms.TextInput(attrs={'class':'startDate'}))
+    # end_date = forms.DateField(widget=forms.TextInput(attrs={'class':'endDate'}))
+    
     class Meta:
         model = Contract
         fields = ['name', 'start_date', 'end_date', 'salary', 'employee']
-        widgets = {
-            'end_date': DateInput(),
-            'start_date':  DateInput(),
-        }
        
-
+        
 class AddressForm(ModelForm):
     class Meta:
         model = Address
-        fields = ['street_line1', 'street_line2', 'zipcode', 'city', 'state', 'employee']
+        fields = ['street_line1', 'street_line2', 'zipcode',
+                  'city', 'state', 'employee', 'company']
+        exclude = ('employee', 'company')
 
 
-# AddressFormSet = modelformset_factory(Address, extra=1, form=AddressForm)
-# ContractFormSet = modelformset_factory(Contract,extra=1, form=ContractForm)
+
 
 class EmployeeForm(ModelForm):
 
@@ -51,13 +61,11 @@ class EmployeeForm(ModelForm):
         model = Employee
         fields = ['title', 'firstname', 'lastname', 'email',
                   'date_of_birth', 'date_of_joining']
-        widgets = {
-            'date_of_birth': DateInput(),
-            'date_of_joining':  DateInput(),
-        }
 
 
 ContractFormSet = inlineformset_factory(Employee, Contract,
-                                            form= ContractForm, extra=1)
+                                        form=ContractForm, extra=1)
 AddressFormSet = inlineformset_factory(Employee, Address,
-                                            form= AddressForm, extra=1)
+                                       form=AddressForm, extra=1)
+CompanyAddressFormSet = inlineformset_factory(Company, Address,
+                                              form=AddressForm, extra=1)

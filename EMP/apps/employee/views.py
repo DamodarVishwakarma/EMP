@@ -2,6 +2,7 @@ from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
@@ -123,21 +124,9 @@ class AddressContractEmployeeUpdate(UpdateView):
     model = Employee
     form_class = EmployeeForm
     success_url = reverse_lazy('employee_list')
-    context_object_name = 'emps'
-    is_update_view = True
     template_name = 'employee/employee_update.html'
 
-    def get_context_data(self, **kwargs):
-        data = super(AddressContractEmployeeUpdate, self).get_context_data(**kwargs)
-        if self.request.POST:
-            data['contractemployee'] = ContractFormSet(self.request.POST, instance=self.object)
-            data['addressemployee'] = AddressFormSet(self.request.POST, instance=self.object)
-        else:
-            data['contractemployee'] =ContractFormSet(instance=self.object)
-            data['addressemployee'] =AddressFormSet(instance=self.object)
-        # import pdb; pdb.set_trace()
-        return data
-    
+   
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form_class = self.get_form_class()
@@ -147,27 +136,35 @@ class AddressContractEmployeeUpdate(UpdateView):
         if (form.is_valid() and addressemployee.is_valid() and contractemployee.is_valid()):
             return self.form_valid(form, contractemployee, addressemployee)
         else:
-            #import pdb; pdb.set_trace()
+           
             return self.form_invalid(form, contractemployee, addressemployee)
 
+       
+    def get_context_data(self, **kwargs):
+        data = super(AddressContractEmployeeUpdate, self).get_context_data(**kwargs)
+        if self.request.POST:
+            data['contractemployee'] = ContractFormSet(self.request.POST, instance=self.object)
+            data['addressemployee'] = AddressFormSet(self.request.POST, instance=self.object)
+        else:
+            data['contractemployee'] =ContractFormSet(instance=self.object)
+            data['addressemployee'] =AddressFormSet(instance=self.object)
+            # import pdb; pdb.set_trace()
+            return data
+
     def form_valid(self, form, contractemployee, addressemployee):
-        context = self.get_context_data()
-        form= context['form']
-        contractemployee = context['contractemployee']
-        addressemployee = context['addressemployee']
-        # with transaction.atomic():
         self.object = form.save()
-        if contractemployee.is_valid() and addressemployee.is_valid():
-                contractemployee.instance = self.object
-                contractemployee.save()
-                addressemployee.instance = self.object
-                addressemployee.save()
-        return super(AddressContractEmployeeUpdate, self).form_valid(form)
-
-    # def form_invalid(self, form, contractemployee, addressemployee):
-    #     return self.render_to_response(self.get_context_data(form=form, contractemployee=contractemployee, addressemployee=addressemployee ))
-
-
+        contractemployee.instance = self.object
+        contractemployee.save()
+        addressemployee.instance = self.object
+        addressemployee.save()
+        # print('form is valid')
+        return HttpResponseRedirect(self.get_success_url())
+        
+        # return super(AddressContractEmployeeCreate, self).form_valid(form)
+    
+    def form_invalid(self, form, contractemployee, addressemployee):
+        print('form is invalid')
+        return self.render_to_response(self.get_context_data(form=form, contractemployee=contractemployee, addressemployee=addressemployee))
 
 # Contract Views-
 

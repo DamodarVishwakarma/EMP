@@ -18,7 +18,7 @@
             <th>Name</th>
             <th>Contact</th>
             <th>Email</th>
-            <th>Address</th>
+            <!-- <th>Address</th> -->
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -30,7 +30,7 @@
             <td>{{ comp.name }}</td>
             <td>{{ comp.contact_number }}</td>
             <td>{{ comp.email }}</td>
-            <td>{{ comp.address }}</td>
+            <!-- <td>{{ comp.address }}</td> -->
             <td><a href="{% url 'company_update' comp.id %}"><i class="material-icons" title="Edit">&#xE254;</i></a>
             </td>
             <td><a href="{% url 'company_delete' comp.id %}"><i class="material-icons" style="color:red;"

@@ -11,7 +11,7 @@ urlpatterns = [
     path('employees/', EmployeeListView.as_view(), name='employee_list'),
     path('employee/add/', AddressContractEmployeeCreate.as_view(), name='employee_add'),
     path('employee/<int:pk>/', EmployeeDetailView.as_view(), name='employee_detail'),
-    path('employee/<int:pk>/update/', AddressContractEmployeeUpdate.as_view(), name='employee_update'),
+    path('employee/update/<int:pk>/', AddressContractEmployeeUpdate.as_view(), name='employee_update'),
     path('employee/<int:pk>/delete/', EmployeeDeleteView.as_view(), name='employee_delete'),
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
     #contract pattern
