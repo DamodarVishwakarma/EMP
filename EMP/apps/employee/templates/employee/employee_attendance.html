@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+    <table id="datatable-responsive"
+        class="datatable-responsive table table-striped table-bordered dt-responsive nowrap" cellspacing="0"
+        width="100%">
+        <thead>
+            <tr>
+                <th>Employee Name</th>
+                {% for day in days%}{% if day > 0%}<th>{{day}}</th> {% endif %}
+                {%endfor%}
+            </tr>
+        </thead>
+        <tbody>
+            {% for details in get_all_details %}
+            <tr>
+                <td>{{ details.employee_id}}</td>
+               
+                {% for day in days %}
+                {% if day == details.date.day %}
+                {% if day > 0%}
+                <td>{{ details.status }}</td>
+                {% endif %}
+                {% else %}
+                <td></td>
+                
+                {% endif %}
+                {%endfor%}
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+{% endblock content %}

@@ -7,6 +7,7 @@ from django.forms import inlineformset_factory
 from shared.models import Address
 from employee.models import Employee, Contract
 from company.models import Company
+# from attendance.models import EmployeeAttendance
 
 
 class RegisterForm(UserCreationForm):
@@ -69,3 +70,8 @@ AddressFormSet = inlineformset_factory(Employee, Address,
                                        form=AddressForm, extra=1)
 CompanyAddressFormSet = inlineformset_factory(Company, Address,
                                               form=AddressForm, extra=1)
+
+# class EmployeeAttendanceForm(ModelForm):
+#     class Meta:
+#         model = EmployeeAttendance
+#         fields = ['employee_id', 'date', 'status', 'note']

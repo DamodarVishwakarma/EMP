@@ -1,0 +1,194 @@
+<table border="0" cellpadding="0" cellspacing="0" class="calendar">
+    <tr>
+        <th colspan="7" class="month">August 2022</th>
+    </tr>
+    <tr>
+        <th class="mon">Mon</th>
+        <th class="tue">Tue</th>
+        <th class="wed">Wed</th>
+        <th class="thu">Thu</th>
+        <th class="fri">Fri</th>
+        <th class="sat">Sat</th>
+        <th class="sun">Sun</th>
+        <th class="mon">Mon</th>
+        <th class="tue">Tue</th>
+        <th class="wed">Wed</th>
+        <th class="thu">Thu</th>
+        <th class="fri">Fri</th>
+        <th class="sat">Sat</th>
+        <th class="sun">Sun</th>
+        <th class="mon">Mon</th>
+        <th class="tue">Tue</th>
+        <th class="wed">Wed</th>
+        <th class="thu">Thu</th>
+        <th class="fri">Fri</th>
+        <th class="sat">Sat</th>
+        <th class="sun">Sun</th>
+        <th class="mon">Mon</th>
+        <th class="tue">Tue</th>
+        <th class="wed">Wed</th>
+        <th class="thu">Thu</th>
+        <th class="fri">Fri</th>
+        <th class="sat">Sat</th>
+        <th class="sun">Sun</th>
+        <th class="mon">Mon</th>
+        <th class="tue">Tue</th>
+        <th class="wed">Wed</th>
+    </tr>
+    <th>
+    <td><span class=\'date\'>1</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>2</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>3</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>4</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>5</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>6</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>7</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>8</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>9</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>10</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>11</span>
+        <ul>
+            <li> <a href="/employees/attendance/2/"> Damodar VIshwakarma-P </a> </li>
+            <li> <a href="/employees/attendance/3/"> Test User-P </a> </li>
+        </ul>
+    </td>
+    <td><span class=\'date\'>12</span>
+        <ul>
+            <li> <a href="/employees/attendance/1/"> Damodar VIshwakarma-A </a> </li>
+        </ul>
+    </td>
+    <td><span class=\'date\'>13</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>14</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>15</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>16</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>17</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>18</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>19</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>20</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>21</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>22</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>23</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>24</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>25</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>26</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>27</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>28</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>29</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>30</span>
+        <ul> </ul>
+    </td>
+    <td><span class=\'date\'>31</span>
+        <ul> </ul>
+    </td>
+    </th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    </th>
+
+
+
+
+    <script type="text/javascript">
+        $('.submit_attendance').on('click', function () {
+            $.ajax({
+                url: '/employees/attendance/',
+                method: 'POST',
+                data: $('.update_attendance').serialize(),
+                beforeSend: function () {
+                    // things to do before submit
+                },
+                success: function (response) {
+    
+                    alert(response)
+                }
+            });
+            return false;
+    
+        });
+    </script>
+
+
+def attendance_report(request):
+  context = {}
+  form = AttendanceForm(request.POST)
+  if request.method == 'POST':
+    if request.POST.get('month'):
+        grab_data_passed = request.POST.get('month')
+        import pdb; pdb.set_trace()
+        get_details = EmployeeAttendance.objects.filter(date__month=grab_data_passed)
+        z=0
+        range=9
+        days=[]
+        if z< range:
+            dats = EmployeeAttendance.objects.filter(date__month=grab_data_passed)[z].date
+            z+=1
+            y=dats.month
+            x=dats.year
+            cal = calendar.TextCalendar(calendar.WEDNESDAY)
+            for day in cal.itermonthdays(x, y):
+               days.append(day) 
+        context['days']=days
+        employee = EmployeeAttendance.objects.all()
+        for i in employee:
+            x=i.id
+            get_details = EmployeeAttendance.objects.filter(employee_id__employee=x, date__month=grab_data_passed)
+        context['get_details']=get_details  
+        return render(request, 'employee/employee_attendance.html', context)
+  context={'form':form}
+  return render(request, 'employee/attendance_form.html', context)

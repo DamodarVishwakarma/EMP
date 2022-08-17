@@ -47,11 +47,13 @@ INSTALLED_APPS = [
     'employee',
     'company',
     'shared',
+    'attendance',
 
  # Third party packages
     'django_extensions',
     'crispy_forms',
     'widget_tweaks',
+    'django_seed',
 ]
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',

@@ -20,7 +20,8 @@ class Employee(models.Model):
     date_of_joining = models.DateField()
 
     def __str__(self):
-        return f"{self.firstname}"
+        return f"{self.firstname} {self.lastname}"
+
 
 
 class Contract(models.Model):
