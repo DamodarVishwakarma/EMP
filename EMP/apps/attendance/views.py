@@ -129,18 +129,18 @@ from .models import *
 #         return date(year, month, day=1)
 #     return datetime.today()
 
-# def prev_month(d):
-#     first = d.replace(day=1)
-#     prev_month = first - timedelta(days=1)
-#     month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
-#     return month
+def prev_month(d):
+    first = d.replace(day=1)
+    prev_month = first - timedelta(days=1)
+    month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
+    return month
 
-# def next_month(d):
-#     days_in_month = calendar.monthrange(d.year, d.month)[1]
-#     last = d.replace(day=days_in_month)
-#     next_month = last + timedelta(days=1)
-#     month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
-#     return month
+def next_month(d):
+    days_in_month = calendar.monthrange(d.year, d.month)[1]
+    last = d.replace(day=days_in_month)
+    next_month = last + timedelta(days=1)
+    month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
+    return month
 
 def attendance(request, attendance_id=None):
     instance = EmployeeAttendance()
@@ -162,9 +162,9 @@ def get_date(req_month):
     return datetime.today().month
 
 def attendance_report(request):
-  context = {}
-  form = AttendanceForm(request.POST)
-  if get_date(request.GET.get('month', None)):
+    context = {}
+    form = AttendanceForm(request.POST)
+    if get_date(request.GET.get('month', None)):
         grab_data_passed = get_date(request.GET.get('month', None))
         z=0
         range=32
@@ -178,15 +178,14 @@ def attendance_report(request):
             cal = calendar.TextCalendar(calendar.WEDNESDAY)
             for day in cal.itermonthdays(x, y):
                 days.append(day)
-                # import pdb; pdb.set_trace()
-                arg1 = set(days)
-                arg2 = arg1.remove(0)
-                arg3 = list(arg2)
-            context['days']= arg3
-        employee = EmployeeAttendance.objects.all()
+                
+        arg1 = set(days)
+        arg1.remove(0)
+        arg3 = list(arg1)
+        context['days']= arg3
+        # import pdb; pdb.set_trace()
         get_all_details =EmployeeAttendance.objects.filter(date__month=grab_data_passed)
         context['get_all_details']=get_all_details  
-        context['employees'] = employee
         return render(request, 'employee/employee_attendance.html', context)
-  context={'form':form}
-  return render(request, 'employee/attendance_form.html', context)
+    context={'form':form}
+    return render(request, 'employee/attendance_form.html', context)
