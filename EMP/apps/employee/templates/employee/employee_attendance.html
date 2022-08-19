@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<a class="btn btn-info left" href="{% url 'employee_attendance' %}?{{ prev_month }}"> Previous Month </a>
-<a class="btn btn-info right" href="{% url 'employee_attendance' %}?{{ next_month }}"> Next Month </a>
+<a class="btn btn-info right mt-1" href="{% url 'new_attendance' %}"> Add New </a>
+<!-- <a class="btn btn-info left mt-1" href="{% url 'employee_attendance' %}?{{ prev_month }}"> Previous Month </a>
+<h3 class="text-center">{{month}}-{{year}}</h3>
+<a class="btn btn-info float-right mt-1" href="{% url 'employee_attendance' %}?{{ next_month }}"> Next Month </a> -->
+<h3 class="text-center">{{month}}-{{year}}</h3>
 <table id="datatable-responsive" class="datatable-responsive table table-striped table-bordered dt-responsive nowrap"
     cellspacing="0" width="100%">
     <thead>
@@ -19,7 +22,8 @@
             {% for day in days %}
             {% if day == details.date.day %}
             {% if day > 0%}
-            <td>{{ details.status }}</td>
+            <!-- <td>{{ details.status }}</td> -->
+            <td><a href="{% url 'edit_attendance' details.id %}">{{ details.status }}</td>
             {% endif %}
             {% else %}
             <td></td>
