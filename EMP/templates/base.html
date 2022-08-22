@@ -44,6 +44,25 @@
 
 
     {% block extra_script %}
+
+    <script type="text/javascript">
+        $('.submit_attendance').on('click', function () {
+            $.ajax({
+                url: '/employees/attendance/{{emp_id}}/',
+                method: 'POST',
+                data: $('.update_attendance').serialize(),
+                beforeSend: function () {
+                    // things to do before submit
+                },
+                success: function (response) {
+    
+                    alert(response)
+                }
+            });
+            return false;
+    
+        });
+    </script>
     
     {% endblock %}
 </body>

@@ -143,27 +143,6 @@
 
 
 
-
-    <script type="text/javascript">
-        $('.submit_attendance').on('click', function () {
-            $.ajax({
-                url: '/employees/attendance/',
-                method: 'POST',
-                data: $('.update_attendance').serialize(),
-                beforeSend: function () {
-                    // things to do before submit
-                },
-                success: function (response) {
-    
-                    alert(response)
-                }
-            });
-            return false;
-    
-        });
-    </script>
-
-
 def attendance_report(request):
   context = {}
   form = AttendanceForm(request.POST)

@@ -150,7 +150,6 @@ class AddressContractEmployeeUpdate(UpdateView):
         if (form.is_valid() and addressemployee.is_valid() and contractemployee.is_valid()):
             return self.form_valid(form, contractemployee, addressemployee)
         else:
-
             return self.form_invalid(form, contractemployee, addressemployee)
 
     def get_context_data(self, **kwargs):
@@ -190,85 +189,3 @@ class ContractCreateView(CreateView):
     fields = ['name', 'start_date', 'end_date', 'salary']
     success_url = reverse_lazy('employee_add')
 
-
-# def employee_attendance(request):
-#     context = {}
-#     form = EmployeeAttendanceForm(request.POST)
-#     # import pdb; pdb.set_trace()
-#     if request.method == 'POST':
-#         if request.POST.get('attendance'):
-#             grab_data_passed = request.POST.get('attendance')
-#             get_details = EmployeeAttendance.objects.filter(
-#                 date__month=grab_data_passed)
-            # z = 0
-            # range = 9
-            # days = []
-            # if z < range:
-            #     dats = EmployeeAttendance.objects.filter(
-            #         date__month=grab_data_passed)[z].date
-            #     z += 1
-            #     y = dats.month
-            #     x = dats.year
-            #     cal = calendar.TextCalendar(calendar.WEDNESDAY)
-            #     for day in cal.itermonthdays(x, y):
-            #         days.append(day)
-            # context['days'] = days
-            # employee = EmployeeAttendance.objects.all()
-            # for i in employee:
-            #     x = i.id
-            #     get_details = EmployeeAttendance.objects.filter(
-            #         employee__employee=x, date__month=grab_data_passed)
-            # context['get_details'] = get_details
-#             return render(request, 'employee/employee_attendance.html', {'context':context})
-#         context={'form':form}
-#         return render(request, 'employee/employee_attendance_create.html', {'context':context})
-
-
-# class EmployeeAttendanceListView(ListView):
-#     model = EmployeeAttendance
-#     template_name = 'employee/employee_attendance.html'
-
-#     def get_queryset(self):
-      
-#         return EmployeeAttendance.objects.all()
-
-    
-#     def get(self, request, *args, **kwargs):
-#         # import pdb; pdb.set_trace()
-#         self.object_list = self.get_queryset()
-       
-#         grab_data_passed = self.kwargs.get('employee')
-#         self.object_list = self.object_list.filter(date__month=grab_data_passed)
-         
-#         queryset = EmployeeAttendance.objects.filter(employee=self.kwargs.get('employee'))
-        
-#         z = 0
-#         range = 31
-#         days = []
-#         if z < range:
-                
-#             dats = EmployeeAttendance.objects.filter(
-#             date__month=grab_data_passed)[z].date
-#             z += 1
-#             y = dats.month
-#             x = dats.year
-#             cal = calendar.TextCalendar(calendar.WEDNESDAY)
-#             for day in cal.itermonthdays(x, y):
-#                 days.append(day)
-#         context['days'] = days
-#         employee = EmployeeAttendance.objects.all()
-#         for i in employee:
-#                 x = i.id
-#                 get_details = EmployeeAttendance.objects.filter(
-#                     employee__employee=x, date__month=grab_data_passed)
-#         context['get_details'] = get_details
-        
-#         if queryset.exists():
-#             self.object_list = self.object_list.filter(date__month=self.kwargs.get('employee'))
-#         else:
-#             raise Http404("No employee found")
-
-#         context = self.get_context_data()
-#         context['employee'] = self.object_list
-#         # import pdb; pdb.set_trace()
-#         return self.render_to_response(context)
