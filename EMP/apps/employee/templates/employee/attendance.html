@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<button class="btn btn-info attendance-btn"> Add New </button>
+<a class="nav-link" href="{% url 'employee_attendance' %}?{{ curr_month }}">Show all</a>
+
+{% endblock content %}

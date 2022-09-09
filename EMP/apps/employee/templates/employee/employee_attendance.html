@@ -1,48 +1,73 @@
 {% extends "base.html" %}
 {% block content %}
-<a class="btn btn-info right mt-1" href="{% url 'new_attendance' %}"> Add New </a>
-<div class="container">
+<a class="btn btn-info attendance-btn" data-form-url="{% url 'new_attendance' %}"> Add New </a>
+<div class="container" style="display: inline-table;">
     <div class="row">
-        <div class="col-sm"><a class="left mt-4" href="{% url 'employee_attendance' %}?{{ prev_month }}"><svg
-                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                    class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
+        <div style="margin-top: 5px;margin-left: 37%;" class="col-sm"><a
+                href="{% url 'employee_attendance' %}?{{ prev_month }}"><svg xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" fill="dark" class="bi bi-arrow-left-circle" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
                         d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z" />
-                </svg></a></div>
-        <div class="col-sm">
+                </svg></a>
+        </div>
+        <div style="display: contents;" class="col-sm">
             <h3 class="text-center">{{month}}-{{year}}</h3>
         </div>
-        <div class="col-sm"><a class="dark float-right mr-50"
-                href="{% url 'employee_attendance' %}?{{ next_month }}"><svg xmlns="http://www.w3.org/2000/svg"
-                    width="24" height="24" fill="currentColor" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+        {% if req_month_data >= current_month %}
+        <div class="disabled2 col-sm"><a class="float-right" href="{% url 'employee_attendance' %}?{{ next_month }}"
+                onclick='return false'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="grey"
+                    class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
                         d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
-                </svg></a></div>
+                </svg></a>
+        </div>
+        {% else %}
+        <div class="disabled2 col-sm"><a class="float-right"
+                href="{% url 'employee_attendance' %}?{{ next_month }}"><svg xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" fill="dark" class="bi bi-arrow-right-circle" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                </svg></a>
+        </div>
+        {% endif %}
     </div>
 </div>
-<table id="datatable-responsive" class="datatable-responsive table table-striped table-bordered dt-responsive nowrap"
+<table id="datatable_responsive_attendance"
+    class="table-responsive datatable-responsive table table-striped table-bordered dt-responsive nowrap"
     cellspacing="0" width="100%">
     <thead>
         <tr>
+            <th>Employee ID</th>
             <th>Employee Name</th>
-            {% for day in days%}{% if day > 0%}<th>{{day}}</th> {% endif %}
-            {%endfor%}
+            {% for day in days %}
+            <th>{{ day|date:"j"}} {{ day|date:"D"}}</th>
+            {% endfor %}
         </tr>
     </thead>
     <tbody>
-        {% for details in get_all_details %}
+        {% regroup get_all_details|dictsort:"employee_id" by employee_id as attendance_list %}
+        {% for x in attendance_list %}
         <tr>
-            <td>{{ details.employee_id}}</td>
-
+            <td>{{ x.grouper }}</td>
+            <td>{{ x.list.0.employee }}</td>
             {% for day in days %}
-            {% if day == details.date.day %}
-            <td><a href="{% url 'edit_attendance' details.id %}">{{ details.status }}</td>
-            {% else %}
-            <td></td>
-            {% endif %}
-            {%endfor%}
+            <td class="date-object">
+                {% for y in x.list %}
+                {% if day == y.date%}
+                <button class="btn sm success profile-btn" data-form-url="{% url 'edit_attendance' y.id %}"
+                    type="button" name="button">{{ y.status }}</button>
+                {% endif %}
+                {% endfor %}
+            </td>
+            {% endfor %}
         </tr>
         {%endfor%}
     </tbody>
 </table>
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
 {% endblock content %}
+

@@ -1,38 +1,32 @@
-{% extends 'base.html' %}
-
-{% block title %}
-Add attendance
-{% endblock %}
-
-{% block content %}
-
-{% if form.errors %}
-{% for field in form %}
-{% for error in field.errors %}
-<div class="alert alert-danger">
-    {{ field.label }} <strong>{{ error|escape }}</strong>
-</div>
-{% endfor %}
-{% endfor %}
-{% for error in form.non_field_errors %}
-<div class="alert alert-danger">
-    {{ field.label }} <strong>{{ error|escape }}</strong>
-</div>
-{% endfor %}
-{% endif %}
-
-<form method="post" class="update_attendance">
-    <h2>Add Employee Attendance</h2>
-    <hr><br>
-    {% csrf_token %}
-    <table class="form form-table">
-        {{ form }}
-        <tr>
-            <td colspan="2"><button type="submit" class="btn btn-info right submit_attendance"> Submit </button></td>
-        </tr>
-    </table>
+{% load widget_tweaks %}
+<form method="post" action="" class="add_attendance">
+  {% csrf_token %}
+  <div class="modal-header">
+    <h3 class="modal-title">Add Attendance</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2" style="color:red">
+      {% for error in form.non_field_errors %}
+      {{ error }}
+      {% endfor %}
+    </div>
+    {% for field in form %}
+    <div class="form-group" style="color: black;">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {% render_field field class="form-control" placeholder=field.label %}
+      <div class="{% if field.errors %} invalid{% endif %}">
+        {% for error in field.errors %}
+        <p class="help-block">{{ error }}</p>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
 </form>
-{% endblock %}
-{% block extra_script %}
 
-{% endblock %}

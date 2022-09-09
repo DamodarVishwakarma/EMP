@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+<nav class="navbar navbar-expand-lg navbar-light bg-success">
     <a class="navbar-brand" href="#">EMP</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -10,27 +10,27 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'dashboard' %}">Home<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="{% url 'employee_list' %}">Employee</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="{% url 'company_list' %}">Company</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="{% url 'employee_attendance' %}">Attendance</a>
             </li>
         </ul>
         <ul class="navbar-nav">
             {% if user.is_authenticated %}
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="{% url 'logout' %}">Sign out</a>
             </li>
             {% else %}
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="{% url 'login' %}">Sign in</a>
             </li>
             {% endif %}
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="{% url 'registration' %}">Sign up</a>
             </li>
         </ul>

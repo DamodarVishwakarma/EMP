@@ -11,16 +11,17 @@ ATTENDANCE = (
 )
 
 class EmployeeAttendance(models.Model):
-    employee_id = models.ForeignKey(Employee, on_delete=models.CASCADE, blank=False)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, blank=False)
     date = models.DateField()
     status = models.CharField(max_length=2, choices=ATTENDANCE)
-    note= models.CharField(max_length=200)
+    # note= models.CharField(max_length=200)
 
     class Meta:
         ordering = ['id']
+        unique_together = (("employee","date"),) 
     
     def __str__(self):
-        return f"{self.employee_id}"
+        return f"{self.employee}"
         
     @property
     def get_absolute_url(self):
