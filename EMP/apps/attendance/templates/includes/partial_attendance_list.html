@@ -1,0 +1,27 @@
+{% for key, values in get_all_details.items %}
+<tr>
+    <td>{{ key }}</td>
+    <td>{{ values.0.employee }}</td>
+    {% for day in days %}
+    <td class="popup">
+        {% for result in values %}
+        {% if day == result.date %}
+        <button class="btn sm success profile-btn" data-url="{% url 'edit_attendance' result.id %}" type="button"
+            name="button">{{ result.status }}</button>
+        {% endif %}
+        {% endfor %}
+    </td>
+    {% endfor %}
+</tr>
+{% endfor %}
+
+{% block extra_script %}
+    <script type="text/javascript">
+        function tes() {alert("Empty field");}
+        var tds = document.getElementsByClassName("popup");
+        for (var i in tds){ 
+            if(tds[i].textContent==" "){
+        tds[i].onclick = tes;
+        }}
+    </script>
+{% endblock %}

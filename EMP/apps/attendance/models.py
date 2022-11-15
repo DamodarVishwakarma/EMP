@@ -14,7 +14,7 @@ class EmployeeAttendance(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, blank=False)
     date = models.DateField()
     status = models.CharField(max_length=2, choices=ATTENDANCE)
-    # note= models.CharField(max_length=200)
+    #note= models.CharField(max_length=200)
 
     class Meta:
         ordering = ['id']

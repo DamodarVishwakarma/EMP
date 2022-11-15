@@ -494,3 +494,64 @@ def get(self,request, **kwargs):
         {'get_all_details': get_all_details},
         request=request)
     return JsonResponse(context)
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                $(".attendance-btn").modalForm({
+                    formURL: "{% url 'new_attendance' %}"
+                });
+                $(".profile-btn").each(function () {
+                    $(this).modalForm({ formURL: $(this).data("form-url") });
+                });
+            });
+        });
+    </script>
+
+{% regroup get_all_details|dictsort:"employee_id" by employee_id as attendance_list %}
+{% for x in attendance_list %}
+<tr>
+    <td>{{ x.grouper }}</td>
+    <td>{{ x.list.0.employee }}</td>
+    {% for day in days %}
+    <td>
+        {% for y in x.list %}
+        {% if day == y.date %}
+        <button class="btn sm success profile-btn" data-url="{% url 'edit_attendance' y.id %}"
+            type="button" name="button">{{ y.status }}</button>
+        {% endif %}
+        {% endfor %}
+    </td>
+    {% endfor %}
+</tr>
+{%endfor%}
+
+
+def attendance_create(request):
+    if request.method == 'POST':
+        form = AttendanceUpdateForm(request.POST)
+    else:
+        form = AttendanceUpdateForm()
+    return save_attendance_form(request, form, 'attendance/attendance_create_form.html')
+
+
+def attendance_update(request, pk):
+    book = get_object_or_404(EmployeeAttendance, pk=pk)
+    if request.method == 'POST':
+        form = AttendanceUpdateForm(request.POST, instance=book)
+    else:
+        form = AttendanceUpdateForm(instance=book)
+    return save_attendance_form(request, form, 'attendance/attendance_update_form.html')
+
+
+{% block extra_script %}
+    <script src="{% static 'js/async_script.js' %}"></script>
+    <script type="text/javascript">
+        var empty = true;
+        function tes() {alert("Empty field");}
+    
+        var tds = document.getElementsByTagName("td");
+    
+        for (var i in tds) tds[i].onclick = tes;
+    </script>
+{% endblock %}

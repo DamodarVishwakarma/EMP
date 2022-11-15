@@ -45,36 +45,7 @@
 
     {% block extra_script %}
 
-    <!-- You can alternatively load the minified version -->
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(function () {
-                $(".attendance-btn").modalForm({
-                    formURL: "{% url 'new_attendance' %}"
-                });
-            });
-    </script>
 
-    <script type="text/javascript">
-          $(document).on('submit', '.add_attendance', function (e) {
-              $.ajax({
-                  type: 'POST',
-                  url: '{% url "new_attendance" %}',
-                  data: {
-                      employee: $('#id_employee').val(),
-                      date: $('#id_date').val(),
-                      status: $('#id_status').val(),
-                      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
-                      action: 'post'
-                  },
-                  success: function (json) {
-                      console.log(json)
-                  },
-                 
-              });
-          });
-        })
-    </script>
     {% endblock %}
 </body>
 

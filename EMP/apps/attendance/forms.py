@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from .models import*
 from django import forms
-from bootstrap_modal_forms.forms import BSModalModelForm
+#from bootstrap_modal_forms.forms import BSModalModelForm
 from datetime import datetime
 
 
@@ -22,7 +22,7 @@ class AttendanceForm(ModelForm):
             'date' : DateInput(),
         }
 
-class AttendanceUpdateForm(BSModalModelForm):
+class AttendanceUpdateForm(ModelForm):
     def __init__(self, *args, **kwargs):
         # self.request = kwargs.pop('request')
         super(AttendanceUpdateForm, self).__init__(*args, **kwargs)

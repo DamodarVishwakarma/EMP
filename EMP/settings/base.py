@@ -54,9 +54,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'widget_tweaks',
     'django_seed',
-    'bootstrap_modal_forms',
-
 ]
+
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',

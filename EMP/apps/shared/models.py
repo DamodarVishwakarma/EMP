@@ -11,11 +11,9 @@ class Address(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='employee_address', null=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='company_address', null=True)
    
-     
     class Meta:
         verbose_name = "Address"
         verbose_name_plural = "Addresses"
 
-     
     def __str__(self):
         return f"{self.street_line1}"

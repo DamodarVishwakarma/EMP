@@ -1,6 +1,12 @@
 {% extends "base.html" %}
+{% load static %}
+
+{% block extra_script %}
+<script src="{% static 'js/async_script.js' %}"></script>
+{% endblock %}
+
 {% block content %}
-<a class="btn btn-info attendance-btn" data-form-url="{% url 'new_attendance' %}"> Add New </a>
+<button class="btn btn-info attendance-btn" data-url="{% url 'new_attendance' %}"><span class="glyphicon glyphicon-plus"></span> Add New </button>
 <div class="container" style="display: inline-table;">
     <div class="row">
         <div style="margin-top: 5px;margin-left: 37%;" class="col-sm"><a
@@ -45,29 +51,16 @@
         </tr>
     </thead>
     <tbody>
-        {% regroup get_all_details|dictsort:"employee_id" by employee_id as attendance_list %}
-        {% for x in attendance_list %}
-        <tr>
-            <td>{{ x.grouper }}</td>
-            <td>{{ x.list.0.employee }}</td>
-            {% for day in days %}
-            <td class="date-object">
-                {% for y in x.list %}
-                {% if day == y.date%}
-                <button class="btn sm success profile-btn" data-form-url="{% url 'edit_attendance' y.id %}"
-                    type="button" name="button">{{ y.status }}</button>
-                {% endif %}
-                {% endfor %}
-            </td>
-            {% endfor %}
-        </tr>
-        {%endfor%}
+        {% include 'includes/partial_attendance_list.html' %}
     </tbody>
 </table>
-<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+<div class="modal fade" tabindex="-1" role="dialog" id="my_modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content"></div>
     </div>
 </div>
+
 {% endblock content %}
+
+
 
